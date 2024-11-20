@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projetos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-image: url('logo_semfundo.jpg');
+            background-repeat: no-repeat;
+            background-position: center; 
+            background-size: 50vw 100vh; /* Faz a imagem cobrir toda a largura e altura */
+           
+        }
+
+        nav {
+            background-color:lightgreen;
+            padding: 2px 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Adiciona quebra de linha em telas menores */
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: center; /* Centraliza os elementos horizontalmente */
+            align-items: center; /* Centraliza os elementos verticalmente */
+            height: 20px; /* Defina uma altura se necessário */
+        }
+
+        nav ul li a:hover {
+            background-color: rgb(95, 156, 95);
+            border-radius: 5px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 60px); /* Ajusta a altura do container */
+            background: rgba(255, 255, 255, 0.781); /* Fundo branco com transparência */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .cabecalho {
+            background-color:  #007bff;
+            padding: 50px 20px;
+            display: flex;
+            background-image: url('logo_semfundo3.jpg');
+            background-size:contain;
+            background-repeat: no-repeat;
+            background-size: 150px;
+            background-position: left;
+        }
+
+        ul {
+            display: inline-block;
+        }
+
+        .search-container {
+            position: absolute;
+            top: 20px; /* Distância do topo */
+            right: 20px; /* Distância da direita */
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 5px; /* Espaçamento entre o campo de busca e o botão */
+            z-index: 1000; /* Garante que a barra fique por cima de outros elementos */
+            }
+
+        .search-bar {
+            padding: 10px;
+            font-size: 16px;
+            width: 250px;
+            border: 2px solid #ccc;
+            border-radius: 25px 0 0 25px; /* Bordas arredondadas no lado esquerdo */
+            outline: none;
+            transition: border-color 0.3s ease;
+           
+        }
+
+        .search-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: lightgreen;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 0 25px 25px 0; /* Bordas arredondadas no lado direito */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: 2px solid #ccc;
+            
+        }
+
+        .search-btn:hover {
+            background-color: rgb(95, 156, 95); /* Muda a cor de fundo ao passar o mouse */
+            border-radius: 0 30px 30px 0;;
+        }
+
+        .msn-erro {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            width: 80%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            background-color: #f2dede;
+            color: #a94442;
+            border: 2px solid #532121b9;
+        }
+
+        .projeto-card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 250px;
+        }
+
+        /* Ajustes para dispositivos móveis */
+        @media (max-width: 768px) {
+        body {
+            background-size: 100% 70vh; /* A imagem de fundo agora vai ocupar toda a tela */
+        }
+
+        nav ul {
+            flex-direction: column; /* Menus em coluna */
+            align-items: center;
+        }
+
+        nav ul li a {
+            font-size: 14px; /* Fontes menores em telas pequenas */
+            padding: 8px 15px;
+        }
+
+        .cabecalho {
+        padding: 20px 10px;
+        background-size: 120px 120px; /* Ajuste o logo */
+        }
+
+        .pesquisador-card {
+            width: 90%; /* Cards ocupando mais largura no celular */
+            margin: 10px 0;
+        }
+
+        .container {
+            padding: 10px;
+            min-height: auto;
+        }
+
+    }
+
+    @media (max-width: 480px) {
+        body {
+            background-size: 100% 60vh; /* A imagem de fundo agora vai ocupar toda a tela */
+        }
+
+        nav ul {
+            flex-direction: column; /* Menus em coluna */
+            align-items: center;
+        }
+
+        nav ul li a {
+            font-size: 16px; /* Fontes maiores */
+            padding: 12px 20px;
+        }
+
+        .cabecalho {
+            padding: 15px;
+            background-size: 50px 50px; /* Logo ainda menor */
+        }
+    }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="cabecalho">
+        <div class="search-container">
+            <input type="text" class="search-bar" id="search" placeholder="Digite..." onkeydown="verificarEnter(event)">
+            <button class="search-btn" onclick="pesquisarProjeto()">Buscar</button>
+        </div>
+    </div>
+
+    <!-- Menu de navegação -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="eventos.html">Eventos</a></li>
+            <li><a href="projetos.html">Projetos</a></li>
+            <li><a href="pesquisadores.html">Pesquisadores</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+         <!-- Resultados da pesquisa -->
+         <div id="result"></div>
+
+         <!-- Lista de projetos -->
+         <div id="projetos-list" class="projetos-list"></div>
+    </div>
+
+</body>
+</html>
+
+<script>
+
+    function verificarEnter(event) {
+        // Verifica se a tecla pressionada é "Enter" (código 13)
+        if (event.key === 'Enter') {
+            // Impede o envio do formulário (caso esteja dentro de um formulário)
+            event.preventDefault();
+            // Chama a função pesquisarPesquisador() como se o botão tivesse sido clicado
+            pesquisarProjeto();
+        }
+    }
+    // Função para buscar projetos
+    function pesquisarProjeto() {
+        const searchTerm = document.getElementById('search').value.trim().toLowerCase();
+        const resultDiv = document.getElementById('result');
+        const projetosList = document.getElementById('projetos-list');
+
+        // Limpar os resultados anteriores
+        projetosList.innerHTML = '';
+        resultDiv.innerHTML = '';
+
+        // URL da API para buscar projetos
+        let url = '/api/projetos';
+        if (searchTerm) {
+            url += `?name=${encodeURIComponent(searchTerm)}`;
+        }
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length === 0) {
+                    resultDiv.innerHTML = 
+                    `<div class="msn-erro">
+                    <strong>Projeto não encontrado.</strong>
+                    </div>`;
+                } else {
+                    // Exibir o projeto pesquisado
+                    data.forEach(item => {
+                        const projetoCard = `
+                            <div class="projeto-card">
+                                <img src="https://img.pokemondb.net/sprites/scarlet-violet/normal/${item.projeto.toLowerCase()}.png" alt="${item.projeto}">
+                                <p><strong>Projeto:</strong> ${item.projeto}</p>
+                                <p><strong>Responsável:</strong> ${item.responsavel}</p>
+                                <p><strong>Área de Pesquisa:</strong> ${item.area}</p>
+                            </div>
+                        `;
+                        projetosList.innerHTML += projetoCard;
+                    });
+                }
+            })
+            .catch(error => {
+                console.error(error); 
+                resultDiv.innerHTML = 
+                `<div class="msn-erro">
+                <strong>Erro ao buscar projeto.</strong>
+                </div>`
+            });
+    }
+
+    // Função para carregar todos os projetos na inicialização da página
+    function carregarTodosProjetos() {
+        const projetosList = document.getElementById('projetos-list');
+
+        // URL base para as imagens dos projetos
+        const baseUrl = 'https://img.pokemondb.net/sprites/scarlet-violet/normal/';
+
+        fetch('/api/projetos')
+            .then(response => response.json())
+            .then(data => {
+                // Limpa a lista antes de carregar novos dados
+                projetosList.innerHTML = '';
+
+                data.forEach(item => {
+                    // Tenta obter o nome do projeto
+                    const projetoName = item.projeto.toLowerCase();
+                    const imgUrl = `${baseUrl}${projetoName}.png`;
+
+                    const projetoCard = `
+                        <div class="projeto-card">
+                            <img src="${imgUrl}" alt="${item.projeto}" onerror="this.onerror=null; this.src='https://example.com/placeholder.png';">
+                            <p><strong>Projeto:</strong> ${item.projeto}</p>
+                            <p><strong>Responsável:</strong> ${item.responsavel}</p>
+                            <p><strong>Área de Pesquisa:</strong> ${item.area}</p>
+                        </div>
+                    `;
+                    projetosList.innerHTML += projetoCard;
+                });
+            })
+            .catch(error => {
+                console.error(error);
+                document.getElementById('result').innerHTML = 
+                `<div class="msn-erro">
+                 <strong>Erro ao carregar todos os projetos...</strong>
+                </div>`
+            });
+    }
+
+    // Carregar todos os projetos ao abrir a página
+    window.onload = carregarTodosProjetos;
+</script>
+</body>
+</html>
+
+

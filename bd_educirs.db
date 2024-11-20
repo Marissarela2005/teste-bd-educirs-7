@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisar Pokémon</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://mediaproxy.tvtropes.org/width/1200/https://static.tvtropes.org/pmwiki/pub/images/pokemonbig.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Estilos do menu de navegação */
+        nav {
+            background-color: #007bff;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #0056b3;
+            border-radius: 5px;
+        }
+
+        /* Estilos do container principal */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 60px); /* Para ajustar a altura do container */
+            background: rgba(255, 255, 255, 0.9); /* Fundo branco com transparência */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .pokemon-card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 250px;
+        }
+
+        .pokemon-card img {
+            width: 100px;
+            height: auto;
+        }
+
+        .pokemon-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Estilos da barra de nível */
+        .level-container {
+            background-color: #f1f1f1; /* Cor do fundo da barra de nível */
+            border-radius: 5px; /* Cantos arredondados */
+            width: 100%; /* Largura total do contêiner */
+            height: 20px; /* Altura da barra */
+            margin-top: 5px; /* Margem superior */
+            overflow: hidden; /* Oculta conteúdo que transborda */
+            position: relative; /* Necessário para o texto ser posicionado corretamente */
+        }
+
+        .level-bar {
+            background-color: #007bff; /* Cor da barra de nível */
+            height: 100%; /* Altura total do contêiner */
+            border-radius: 5px; /* Cantos arredondados da barra */
+            transition: width 0.3s; /* Transição suave para a largura */
+            position: relative; /* Para o texto ser posicionado corretamente */
+        }
+
+        .level-text {
+            position: absolute; /* Permite o posicionamento do texto dentro da barra */
+            width: 100%; /* Largura total para centralizar o texto */
+            height: 100%; /* Altura total para centralizar o texto */
+            display: flex; /* Flexbox para centralizar o texto */
+            align-items: center; /* Centraliza verticalmente */
+            justify-content: center; /* Centraliza horizontalmente */
+            color: white; /* Cor do texto */
+            font-weight: bold; /* Negrito */
+            z-index: 1; /* Garante que o texto fique acima da barra */
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu de navegação -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pesquisa-pokemon.html">Pokémon</a></li>
+            <li><a href="pesquisa-treinador.html">Treinador</a></li>
+            <li><a href="batalhas.html">Batalhas</a></li> <!-- Link para a página de batalhas -->
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Pesquisar Pokémon</h1>
+        <!-- Campo de pesquisa e botão -->
+        <input type="text" id="search" placeholder="Digite o nome do Pokémon ou deixe vazio para ver todos">
+        <button onclick="pesquisarPokemon()">Pesquisar</button>
+
+        <!-- Resultados da pesquisa -->
+        <div id="result"></div>
+
+        <!-- Lista de Pokémon -->
+        <div id="pokemon-list" class="pokemon-list"></div>
+    </div>
+
+    <script>
+        // Função para buscar Pokémon
+        function pesquisarPokemon() {
+            const searchTerm = document.getElementById('search').value.trim().toLowerCase();
+            const resultDiv = document.getElementById('result');
+            const pokemonList = document.getElementById('pokemon-list');
+
+            // Limpar os resultados anteriores
+            pokemonList.innerHTML = '';
+            resultDiv.innerHTML = '';
+
+            // URL da API
+            let url = '/api/pokemon';
+            if (searchTerm) {
+                url += `?name=${encodeURIComponent(searchTerm)}`;
+            }
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        resultDiv.innerHTML = "Nenhum Pokémon encontrado.";
+                    } else {
+                        // Exibir o Pokémon pesquisado
+                        data.forEach(item => {
+                            const pokemonCard = `
+                                <div class="pokemon-card">
+                                    <img src="https://img.pokemondb.net/sprites/scarlet-violet/normal/${item.pokemon.toLowerCase()}.png" alt="${item.pokemon}">
+                                    <p><strong>Pokémon:</strong> ${item.pokemon}</p>
+                                    <p><strong>Treinador:</strong> ${item.treinador}</p>
+                                    <p><strong>Nível:</strong></p>
+                                    <div class="level-container">
+                                        <div class="level-bar" style="width: ${(item.nvl / 100) * 100}%;">
+                                            <div class="level-text">${item.nvl}</div> <!-- Nível do Pokémon -->
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            pokemonList.innerHTML += pokemonCard;
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error(error); 
+                    resultDiv.innerHTML = "Erro ao buscar Pokémon.";
+                });
+        }
+
+        // Função para carregar todos os Pokémon na inicialização da página
+        function carregarTodosPokemon() {
+            const pokemonList = document.getElementById('pokemon-list');
+
+            // URL base para as imagens dos Pokémon
+            const baseUrl = 'https://img.pokemondb.net/sprites/scarlet-violet/normal/';
+
+            fetch('/api/pokemon')
+                .then(response => response.json())
+                .then(data => {
+                    // Limpa a lista antes de carregar novos dados
+                    pokemonList.innerHTML = '';
+
+                    data.forEach(item => {
+                        // Tenta obter o nome da imagem em minúsculas
+                        const pokemonName = item.pokemon.toLowerCase();
+                        const imgUrl = `${baseUrl}${pokemonName}.png`;
+
+                        const pokemonCard = `
+                           <div class="pokemon-card">
+                                <img src="${imgUrl}" alt="${item.pokemon}" onerror="this.onerror=null; this.src='https://example.com/placeholder.png';">
+                                <p><strong>Pokémon:</strong> ${item.pokemon}</p>
+                                <p><strong>Treinador:</strong> ${item.treinador}</p>
+                                <p><strong>Nível:</strong></p>
+                                <div class="level-container">
+                                    <div class="level-bar" style="width: ${(item.nvl / 100) * 100}%;">
+                                        <div class="level-text">${item.nvl}</div> <!-- Nível do Pokémon -->
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        pokemonList.innerHTML += pokemonCard;
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                    document.getElementById('result').innerHTML = "Erro ao carregar todos os Pokémon.";
+                });
+        }
+
+        // Carregar todos os Pokémon ao abrir a página
+        window.onload = carregarTodosPokemon;
+    </script>
+</body>
+</html>
